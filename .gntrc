@@ -1,0 +1,26 @@
+[general]
+shadow = 0
+mouse = 1
+remember_position = 1
+wm = /usr/lib/gnt/irssi.so
+
+[Finch]
+mouse = 1
+#color-available = green; black
+#color-away = blue; black
+#color-idle = gray; black
+#color-offline = red; black
+color-message-sent = green; default
+color-message-received = red; default
+color-message-highlight = yellow; default
+color-message-action = blue; default
+color-timestamp = blue; default
+#See below for details on color 
+
+[GntEntry::binding]
+home = cursor-home
+end = cursor-end
+
+[GntTree::binding]
+home = move-first
+end = move-last

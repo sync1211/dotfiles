@@ -1,0 +1,30 @@
+auvid_default="2"
+ytdir="/sdcard/Termux-YT-dl/"
+
+echo 'URL: '$1
+echo 'please choose preferred format! ' 
+echo '[1] Video (MP4)' 
+echo '[2] Audio (MP3)' 
+echo '============================== '
+
+read -p "Format (default=$auvid_default): " auvid
+
+if [ -z "$auvid" ]; then
+    auvid="$auvid_default"
+fi
+
+case $auvid in
+    [1Vv]* ) echo 'Downloading video as MP4...'; 
+            youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' $1;;
+    [2Aa]* ) echo 'Downloading video as MP3...';
+            youtube-dl -f bestaudio[ext=m4a] --extract-audio --audio-format mp3 --audio-quality 0 $1;;
+        * ) echo 'ERROR: Invalid selection!';
+            exit 1;;
+esac
+
+#doing a full media-scan, as new files sometimes fail to show up after being scanned the first time...
+echo "Invoking media scan..."
+cd $ytdir
+termux-media-scan -r .
+exit 0 
+
