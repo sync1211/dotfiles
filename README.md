@@ -1,13 +1,17 @@
 # Dotfiles
 
+A collection of scripts, configs and aliases I've accumulated over the years.
+
 ## Requirements
 
 ### Vim
 * [Vundle](https://github.com/VundleVim/Vundle.vim)
 
-
 ### Termux
 * [Youtube-DL](https://github.com/ytdl-org/youtube-dl) or [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+
+### Zsh
+* [oh-my-zsh](https://ohmyz.sh)
 
 ## Installation
 
@@ -23,6 +27,17 @@ cp Termux/termux-url-opener ~/bin
 ### Neovim
 ```
 cp nvimrc .config/nvim/init.vim
+```
+
+### ZSH
+```
+cp zshrc ~/.zshrc
+cp -r zsh-files ~/zsh-files
+```
+
+### ZSH-Themes
+```
+cp themes/zsh/* .oh-my-zsh/themes/
 ```
 
 

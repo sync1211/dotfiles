@@ -1,0 +1,65 @@
+#control desktop windows using zsh
+
+#move-windows
+move-window(){
+wmctrl -r :ACTIVE: -e 0,$1,$2,-1,-1
+}
+alias wmv='move-window'
+
+#gnome workspaces
+switch-workspace-w(){
+
+cws=`wmctrl -d | grep \* | cut -d " " -f 1`
+case $1 in
+    "u") tgt_ws=$(($cws - 1));;
+    "d") tgt_ws=$(($cws + 1));;
+    *) tgt_ws=$(($1));;
+esac
+
+if [[ $tgt_ws -lt 0 ]]; then
+    tgt_ws=0
+fi
+
+wmctrl -r :ACTIVE: -t $tgt_ws
+wmctrl -s $tgt_ws
+}
+
+switch-workspace(){
+cws=`wmctrl -d | grep \* | cut -d " " -f 1`
+case $1 in
+    "u") tgt_ws=$(($cws - 1));;
+    "d") tgt_ws=$(($cws + 1));;
+    *) tgt_ws=$(($1));;
+esac
+
+if [[ $tgt_ws -lt 0 ]]; then
+    tgt_ws=0
+fi
+
+wmctrl -s $tgt_ws
+}
+
+window-jump-exit(){
+    wmctrl -a $@
+    exit 0
+}
+
+switch-workspace-exit(){
+    switch-workspace $@
+    exit 0
+}
+
+wl(){
+    wmctrl -l | awk '{$1=""; $3=""; print $0};'
+}
+wj(){
+    wmctrl -a $@  &> /dev/null || wl
+}
+alias wa='switch-workspace-w'
+alias wae='switch-workspace-exit'
+alias ws='switch-workspace'
+alias wcr='wmctrl -d | grep \* | cut -d " " -f 1'
+alias wjump='wj' 
+alias wje='window-jump-exit'
+alias wcl='wmctrl -c'
+alias desk'wmctrl -k'

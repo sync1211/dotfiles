@@ -14,10 +14,7 @@ Plugin 'VundleVim/Vundle.vim'
 "vim-fugitive
 Plugin 'tpope/vim-fugitive'
 
-"SML
-"Plugin 'jez/vim-better-sml'
 Plugin 'w0rp/ale'
-"Fixers, idk what they do
 "let b:ale_fixers = ['prettier', 'eslint']
 "show bar whenever ale is watching (also removed bounce effect when typing)
 let g:ale_sign_column_always = 1

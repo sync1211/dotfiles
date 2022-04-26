@@ -1,0 +1,38 @@
+
+
+if ls ~/.termux &> /dev/null ; then
+    alias notify_exe='termux-notification --priority max --title "termux timer" --vibrate 1000 --content'
+else
+    alias notify_exe='notify-send --urgency=critical --icon=clock' 
+fi
+
+#timer
+settimer() {
+    if [ "$#" -le  "1" ]; then
+        echo "Usage: $0 <time> <note>" 
+    else
+        if [ $TERM = "linux" ]; then
+            echo "WARNING: running in tty; broadcasting notifcaton to all terminals!"
+            echo wall -g $(whoami) "Timer" "'"$2"'" | at $1 
+        fi
+        {
+            echo notify-send --urgency=critical --icon=clock "Timer" "'"$2"'" | at $1
+        } || {
+            if ! [ $TERM = "linux" ]; then
+                echo 'wall "Timer" "'"$2"'"| write $(whoami)' | at $1 
+            fi
+        }
+        echo "Timer \"$2\" set for $1! "
+        echo "WARNING: closing this terminal will STOP the timer! " 
+    fi
+}
+
+alias timerrm='atrm -V'
+alias timerlist='atq'
+alias trm='atrm -V'
+alias tlist='atq'
+alias tclear='atrm $(atq | head -n1 | sed -e "s/\s.*$//")'
+alias cleartimer='atrm $(atq | head -n1 | sed -e "s/\s.*$//") '
+alias st='settimer'
+
+

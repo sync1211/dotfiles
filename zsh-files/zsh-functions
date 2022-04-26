@@ -1,0 +1,129 @@
+
+#compression as 7z (maybe extend to other formats too)
+7zcompress(){ #usage: 7zcompress (-r) (-p) <file>
+    local zdel=false
+    local zpwd=false
+    while test $# -gt 0
+    do
+        case "$1" in
+            -p) zpwd=true 
+                ;;
+            -h) echo "usage: 7zcompress (-r) (-p) <file>";
+                echo "    -r : remove original file after compression";
+                echo "    -p : enable password protection (you will be prompted!)";
+                ;;
+            -r) zdel=true
+                ;;
+            -rp) zdel=true; zpwd=true
+                ;;
+            -pr) zpwd=true; zdel=true
+                ;;    
+            -*) echo "bad option $1"; return
+                ;;
+            *) if $zpwd; then
+                  echo "compressing $@ into $@.7z"
+                  echo  "WARNING: file will be password-protected!";
+                  7z a -t7z $@.7z -m0=lzma2:d1024m -mx=9 -mmt2 -aoa -mfb=64 -md=32m -ms=on -p -mhe=on $@ || return
+               else 
+                   echo "compressing $@ into $@.7z..."
+                   7z a -t7z $@.7z -m0=lzma2:d1024m -mx=9 -mmt2 -aoa -mfb=64 -md=32m -ms=on $@ || return
+               fi
+               if $zdel; then
+                   echo "-r specified; deleting $@..."
+                   rm -r $@
+               else
+                   : #-r not specified
+               fi;
+               return
+            ;;
+        esac
+        shift
+    done
+}
+
+#random numbers
+random-num(){ #random-do <min> <max>
+    awk -v min=$1 -v max=$2 'BEGIN{srand(); print "Result: "int(min+rand()*(max-min+1))}'
+}
+
+random-choose(){ #random-choose <option1> <option2>
+    (( RANDOM%2 == 0 )) && echo "Result: "$1 || echo "Result: "$2
+}
+
+expandurl() {
+    curl -sLI $@ | grep -i Location
+}
+alias unshorten='expandurl'
+
+dpkg-hold(){
+    for pkg in $@; do
+        echo "$pkg hold" | sudo dpkg --set-selections
+    done
+}
+dpkg-unhold(){
+    for pkg in $@; do
+        echo "$pkg install" | sudo dpkg --set-selections
+    done
+}
+
+alias coinflip='echo "If you ever find yourself at a crossroads, flip a coin. Not because coins should decide fate, but because once the coin is spinning in the air. You will know which side You are hoping to see" ; random-choose "Heads" "Tails"'
+
+clock(){
+    while true; do
+        clear ; echo -e '\e[38;5;193m' ; date +%H" : "%M" : "%S  | figlet ; sleep 0.1
+    done
+}
+
+cheat(){
+    curl "cheat.sh/$@"
+}
+
+#google search from terminal
+gsearch(){
+    xdg-open "https://www.google.com/?q=$@"
+}
+alias gsrc='gsearch'
+
+btfix(){ #Reconnects to bluetooth
+    BTMAC=$(bluetoothctl info | head -n 1 | awk '{print $2};')
+    bluetoothctl disconnect $BTMAC
+    bluetoothctl connect $BTMAC
+}
+
+
+#spinner
+alias spinner-idle='~/zsh-files/spinner.sh --idle --nobox'
+alias spinner='~/zsh-files/spinner.sh'
+
+#open
+open(){
+    for x in $@; do
+        xdg-open $x
+    done
+}
+
+function countdown-s(){
+   date1=$((`date +%s` + $1)); 
+   while [ "$date1" -ge `date +%s` ]; do 
+     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+     sleep 0.1
+   done
+}
+
+alias countdown-m='~/zsh-files/countdown.sh -m'
+alias countdown-to='~/zsh-files/countdown.sh -d'
+
+function stopwatch(){
+  date1=`date +%s`; 
+   while true; do 
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r"; 
+    sleep 0.1
+   done
+}
+
+
+#use ffmpeg to get frames from a video
+function getframes(){
+    mkdir "$1"_frames
+    ffmpeg -i "$1" "$1"_frames/frame_%00d.png
+}

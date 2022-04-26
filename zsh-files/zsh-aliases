@@ -1,0 +1,96 @@
+#notes
+alias note='cat >> /dev/null'
+
+#find string in files
+alias filefind='grep -rnw * -e' 
+alias filefind-w='grep -rn * -e' 
+
+#update
+alias update='sudo dpkg --configure -a && sudo apt update && sudo apt dist-upgrade && sudo apt autoremove && sudo apt clean'
+
+#clear and display directory
+alias cls='clear && ls'
+
+#bluetooth
+alias bt-off='rfkill block bluetooth'
+alias bt-on='rfkill unblock bluetooth'
+alias bt-disconnect='bluetoothctl disconnect'
+alias bt-connect='bluetoothctl connect'
+
+#use color more often when using ls
+alias ls='ls --color=auto'
+
+#annoyances
+alias cd..='cd ..'
+
+#quit
+alias quit='exit'
+
+#kill backgorund process
+alias kbg="kill -9 % && %"
+
+alias se='sudoedit'
+
+#reload zshrc
+alias zsh-reload='exec zsh -l'
+
+#python
+alias p3='python3'
+alias p2='python2'
+
+#current weather in ascii
+alias weather='curl https://wttr.in/'
+alias moon='curl https://wttr.in/moon'
+
+#battery level (laptop)
+alias battery='upower -i $(upower -e | grep BAT) | grep --color=never -E "state|to\ full|to\ empty|percentage"'
+alias batst='battery'
+
+#suspend and lock
+termsuspend() {
+    {
+        dbus-send --system --print-reply --dest="org.freedesktop.UPower" /org/freedesktop/UPower org.freedesktop.UPower.Suspend
+    } || {
+        systemctl suspend
+    }
+}
+#alias suspend='termsuspend'
+alias termlock='~/zsh-files/termlock.sh'
+alias tlock='termlock'
+alias lock='termsuspend ; termlock'
+
+#get public ip
+alias getip='curl ifconfig.co'
+
+#apt hold
+alias apt-hold='sudo apt-mark hold'
+alias apt-unhold='sudo apt-mark unhold'
+
+alias cputemp='cat /sys/class/thermal/thermal_zone*/temp'
+
+#extract
+alias er='extract -r'
+
+#spinner
+#alias spinner='spinner'
+#alias spinner-idle='spinner --idle --nobox'
+
+alias s256check='sha256sum * | grep'
+
+#I didn't want to implement this, but apparently I need it
+alias histfix='strings ~/.zsh_history > ~/zsh-history; mv -f ~/zsh-history ~/.zsh_history'
+
+#don't save history
+alias nohistory='unset HISTFILE'
+
+
+#vim-keybinds
+alias :w='echo "THIS AINT VIM!"'
+alias :q!='exit 1'
+
+#boot
+alias nextboot-cli="systemctl set-default multi-user.target"
+alias nextboot-gui="systemctl set-default graphical.target"
+
+#be polite
+alias please="sudo"

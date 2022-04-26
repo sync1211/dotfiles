@@ -1,0 +1,22 @@
+$VPN_NAME = "YOUR VPN NAME"
+
+#vpn
+alias vpn-on='~/zsh-files/spinner.sh --text "connecting... " nmcli con up $VPN_NAME'
+alias vpn-off='nmcli con down $VPN_NAME'
+
+#Wifi
+alias wifi-on='nmcli radio wifi on'
+alias wifi-off='nmcli radio wifi off'
+alias wifi-restart='nmcli radio wifi off && nmcli radio wifi on'
+alias wifi-ssid='iwgetid -r'
+alias wifi-disconnect='nmcli d disconnect wlp3s0' #replace wlp3s0 with other device if needed
+alias wifi-connect='~/zsh-files/spinner.sh --text "connecting... " nmcli d connect wlp3s0' #same as above
+alias wifi-list='nmli d wifi list'
+alias wifi-scan='wifi-list'
+
+#connect to saved connection (requires an argument)
+alias connect='~/zsh-files/spinner.sh --text "connecting... " nmcli con up'
+#list conections
+alias connection-list='nmcli con s'
+
+alias wcheck='ping -c 1 1.1.1.1 &>/dev/null || ~/zsh-files/spinner.sh --text "reconnecting..." nmcli d connect wlp3s0'

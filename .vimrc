@@ -13,11 +13,6 @@ Plugin 'VundleVim/Vundle.vim'
 "vim-fugitive
 Plugin 'tpope/vim-fugitive'
 
-"Better SML syntax highlighting (+other useful SML functions)
-"Plugin 'jez/vim-better-sml'
-"NOTE: not installing w0rp/ale as it is pretty big and I only
-"use it for SML at the moment
-
 "pyton auto-indent
 "Plugin 'vim-scripts/indentpython.vim'
 
