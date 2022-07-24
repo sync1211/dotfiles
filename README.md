@@ -40,6 +40,13 @@ cp -r zsh-files ~/zsh-files
 cp themes/zsh/* .oh-my-zsh/themes/
 ```
 
+### PowerShell
+```
+mkdir $env:USERPROFILE\Documents\WindowsPowerShell
+cp PowerShell/Microsoft.PowerShell_profile $PROFILE
+cp PowerShell/NumLock.ico $env:USERPROFILE\Documents\WindowsPowerShell
+cp PowerShell/CapsLock.ico $env:USERPROFILE\Documents\WindowsPowerShell
+```
 
 ## Customization
 
